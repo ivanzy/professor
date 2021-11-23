@@ -1,0 +1,9 @@
+POST http://localhost:3000/start
+Content-Type: application/json
+
+{
+    "lambda":20,
+    "time": 60,
+    "name": "testExperiment",
+    "url": "http://127.0.0.1:8888/status"
+}

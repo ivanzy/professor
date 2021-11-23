@@ -1,0 +1,20 @@
+{
+  "name": "professor",
+  "version": "1.0.0",
+  "description": "generates meaningless workload to stress poor web services",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node src/index.js",
+    "cleanUp": "node src/cleanUp/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "jest": "^27.0.6",
+    "pino": "^6.11.3",
+    "pino-pretty": "^5.1.1"
+  }
+}
