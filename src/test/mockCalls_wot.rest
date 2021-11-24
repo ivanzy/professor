@@ -1,0 +1,27 @@
+GET http://192.168.1.242:3333/mockapi/properties/get-status
+
+###
+
+PUT http://192.168.1.242:3333/mockapi/properties/put-status
+Content-Type: application/json
+
+{
+  "id": 1,
+  "temperature": 23.16,
+  "humidity": 52.34,
+  "resistance": 23760.17
+}
+###
+
+POST http://192.168.1.242:3333/mockapi/actions/post-status
+Content-Type: application/json
+
+{
+  "id": 1,
+  "temperature": 23.16,
+  "humidity": 52.34,
+  "resistance": 23760.17
+}
+###
+
+POST http://192.168.1.242:3333/mockapi/actions/delete-status
