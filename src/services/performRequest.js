@@ -7,22 +7,22 @@ const generatePayload = require("../utils/generatePayload");
 const record = require("../utils/recordDataPoint");
 
 const performRequest = {
-  get(url, name) {
-    logger.info(`GET - ${url}`);
+  get({ get }, name) {
+    logger.info(`GET - ${get}`);
     const headers = headerFactory.get();
     const hrstart = process.hrtime();
-    const response = axios.get(url, { headers });
+    const response = axios.get(get, { headers });
     return response
       .then(() =>
         record(name, "get", process.hrtime(hrstart))
       )
       .catch(resultHandler.errorHandler);
   },
-  post(url, name) {
-    logger.info(`POST - ${url}`);
+  post({ post }, name) {
+    logger.info(`POST - ${post}`);
     const headers = headerFactory.post();
     const hrstart = process.hrtime();
-    const response = axios.post(url, generatePayload(), {
+    const response = axios.post(post, generatePayload(), {
       headers,
     });
     return response
@@ -31,11 +31,11 @@ const performRequest = {
       )
       .catch(resultHandler.errorHandler);
   },
-  put(url, name) {
-    logger.info(`PUT - ${url}`);
+  put({ put }, name) {
+    logger.info(`PUT - ${put}`);
     const headers = headerFactory.put();
     const hrstart = process.hrtime();
-    const response = axios.put(url, generatePayload(), {
+    const response = axios.put(put, generatePayload(), {
       headers,
     });
     return response
@@ -44,22 +44,25 @@ const performRequest = {
       )
       .catch(resultHandler.errorHandler);
   },
-  delete(url, name) {
-    logger.info(`DELETE - ${url}`);
+  //*delete is a reserved word
+  delete(url, name, wot = false) {
+    if (wot) return performRequest.post({ post: url.delete }, name);
+    logger.info(`DELETE - ${url.delete}`);
     const headers = headerFactory.delete();
     const hrstart = process.hrtime();
-    const response = axios.delete(url, { headers });
+    const response = axios.delete(url.delete, { headers });
     return response
       .then(() =>
         record(name, "delete", process.hrtime(hrstart))
       )
       .catch(resultHandler.errorHandler);
   },
-  patch(url, name) {
-    logger.info(`PATCH - ${url}`);
+  patch({ patch }, name, wot = false) {
+    if (wot) return performRequest.put({ put: patch }, name);
+    logger.info(`PATCH - ${patch}`);
     const headers = headerFactory.patch();
     const hrstart = process.hrtime();
-    const response = axios.patch(url, generatePayload(), {
+    const response = axios.patch(patch, generatePayload(), {
       headers,
     });
     return response
