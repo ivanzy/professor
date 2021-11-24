@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
     "lambda":20,
-    "time": 60,
+    "time": 10,
     "name": "testExperiment",
     "url": {
         "get": "http://127.0.0.1:8888/status",
