@@ -4,7 +4,7 @@ const chooseMethod = require("../utils/chooseMethod");
 const exponentialGenerator = require("../utils/randomGenerator");
 
 //* wait a exponential time and perform a call to the service
-const start = async ({ url, lambda, name }) =>
+const start = async ({ url, lambda, name, wot=false }) =>
   await new Promise((resolve, reject) => {
     const time = exponentialGenerator(lambda) * 1000;
     const method = chooseMethod();
@@ -16,7 +16,7 @@ const start = async ({ url, lambda, name }) =>
     );
 
     setTimeout(() => {
-      performRequest[chooseMethod()](url, name);
+      performRequest[chooseMethod()](url, name, wot);
       resolve();
     }, time);
   });
