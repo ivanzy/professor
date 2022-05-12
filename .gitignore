@@ -121,4 +121,5 @@ dist
 .pnp.*
 .vscode/launch.json
 .vscode/tasks.json
-src/experiments/testExperiment.csv
+src/experiments/*
+.gitignore
