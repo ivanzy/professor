@@ -8,7 +8,8 @@ module.exports.start = async () => {
   app.use(express.json());
   await require("../routes/startExperiment")(app);
   app.listen(gConfig.server.port);
+  const url = `http://${gConfig.server.host}:${gConfig.server.port}`;
   logger.info(
-    `Server for Performance Analysis purposes up and running at http://${gConfig.server.host}:${gConfig.server.port}`
+    `Server for Performance Analysis purposes up and running at ${url}`
   );
 };
