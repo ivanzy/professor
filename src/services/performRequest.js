@@ -3,10 +3,30 @@ const axios = require("axios");
 const logger = require("../config/logger");
 const headerFactory = require("../utils/headers");
 const resultHandler = require("../utils/handlers/resultHandler");
+const drHarvesterClient = require("./drHarvester.service");
 const generatePayload = require("../utils/generatePayload");
 const record = require("../utils/recordDataPoint");
 
 const performRequest = {
+  async harvester({ harvester }, name) {
+    logger.info(`DrHarvester Simulation at ${harvester}`);
+    const hrstart = process.hrtime();
+    const simulationId =
+      await drHarvesterClient.postSimulation(
+        harvester,
+        generatePayload()
+      );
+    const simulation =
+      await drHarvesterClient.getSimulationResult(
+        harvester,
+        simulationId
+      );
+    logger.info(
+      `SIMULATION FINISHED - attempts: ${simulation.count}`
+    );
+    record(name, process.hrtime(hrstart));
+    return;
+  },
   get({ get }, name) {
     logger.info(`GET - ${get}`);
     const headers = headerFactory.get();
@@ -46,7 +66,11 @@ const performRequest = {
   },
   //*delete is a reserved word
   delete(url, name, wot = false) {
-    if (wot) return performRequest.post({ post: url.delete }, name);
+    if (wot)
+      return performRequest.post(
+        { post: url.delete },
+        name
+      );
     logger.info(`DELETE - ${url.delete}`);
     const headers = headerFactory.delete();
     const hrstart = process.hrtime();
@@ -58,7 +82,8 @@ const performRequest = {
       .catch(resultHandler.errorHandler);
   },
   patch({ patch }, name, wot = false) {
-    if (wot) return performRequest.put({ put: patch }, name);
+    if (wot)
+      return performRequest.put({ put: patch }, name);
     logger.info(`PATCH - ${patch}`);
     const headers = headerFactory.patch();
     const hrstart = process.hrtime();

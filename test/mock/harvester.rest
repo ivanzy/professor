@@ -1,0 +1,16 @@
+POST http://localhost:3000/start
+Content-Type: application/json
+
+{
+    "lambda":0.2,
+    "time": 300,
+    "name": "testHarvester",
+    "url": {
+        "harvester": "http://127.0.0.1:7739",
+        "get": "http://127.0.0.1:8888/status",
+        "post":  "http://127.0.0.1:8888/status",
+        "delete":  "http://127.0.0.1:8888/status",
+        "put":  "http://127.0.0.1:8888/status",
+        "patch":  "http://127.0.0.1:8888/status"
+    }
+}

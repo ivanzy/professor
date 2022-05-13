@@ -16,7 +16,7 @@ const start = async ({ url, lambda, name, wot=false }) =>
     );
 
     setTimeout(() => {
-      performRequest[chooseMethod()](url, name, wot);
+      performRequest['harvester'](url, name, wot);
       resolve();
     }, time);
   });
