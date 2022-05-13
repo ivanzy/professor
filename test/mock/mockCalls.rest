@@ -1,0 +1,52 @@
+POST http://localhost:3000/start
+Content-Type: application/json
+
+{
+    "lambda":20,
+    "time": 10,
+    "name": "testExperiment",
+    "url": {
+        "get": "http://127.0.0.1:8888/status",
+        "post":  "http://127.0.0.1:8888/status",
+        "delete":  "http://127.0.0.1:8888/status",
+        "put":  "http://127.0.0.1:8888/status",
+        "patch":  "http://127.0.0.1:8888/status"
+    }
+}
+
+###
+
+POST http://localhost:3000/start
+Content-Type: application/json
+
+{
+    "lambda":75,
+    "time": 300,
+    "name": "testWorkload75_2",
+    "wot":true,
+    "url": {
+        "get": "http://10.2.0.3:3333/mockapi/properties/get-status",
+        "post":  "http://10.2.0.3:3333/mockapi/actions/post-status",
+        "delete":  "http://10.2.0.3:3333/mockapi/actions/delete-status",
+        "put":  "http://10.2.0.3:3333/mockapi/properties/put-status",
+        "patch":  "http://10.2.0.3:3333/mockapi/properties/put-status"
+    }
+}
+###
+
+POST http://137.204.143.89:3000/start
+Content-Type: application/json
+
+{
+    "lambda":20,
+    "time": 10,
+    "name": "testWorkload",
+    "wot":true,
+    "url": {
+        "get": "http://10.2.0.8:3333/mockapi/properties/get-status",
+        "post":  "http://10.2.0.8:3333/mockapi/actions/post-status",
+        "delete":  "http://10.2.0.8:3333/mockapi/actions/delete-status",
+        "put":  "http://10.2.0.8:3333/mockapi/properties/put-status",
+        "patch":  "http://10.2.0.8:3333/mockapi/properties/put-status"
+    }
+}
