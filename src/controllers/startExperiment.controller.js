@@ -2,7 +2,7 @@ const logger = require("../config/logger");
 const countdown = require("../utils/countdown");
 const experimentControl = require("../utils/experimentControl");
 const validatePayload = require("../validations/payloadValidator");
-const startService = require("../services/startExperiment.service");
+const startService = require("../services/startExperiment.service").start;
 
 const start = (req, res) => {
   try {
@@ -15,12 +15,14 @@ const start = (req, res) => {
     //* starting experiment
     experimentControl.start();
     //* execute startService for the experiment time (countdown)
-    countdown(payload.time, startService, payload).then(
-      () => {
+    countdown(payload.time, startService, payload)
+      .then(() => {
         experimentControl.finish();
         logger.info(`Experiment ${payload.name} finished`);
-      }
-    );
+      })
+      .catch((err) => {
+        logger.error(err.message);
+      });
     res.status(200).send("experiment started");
   } catch (err) {
     if (err.code === 503)

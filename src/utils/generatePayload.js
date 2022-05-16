@@ -1,34 +1,46 @@
 const logger = require("../config/logger");
+const random = require("../utils/randomGenerator");
 const irradiances =
   require("../../assets/Timeseries_44.529_11.324_SA2_2a_2020_2020.json")
     .outputs.hourly;
 
 const devices = {};
 
-const generatePayload = (devId) => {
-  //if devId exist in the array, calculate battery and irradiance
-  if (devices[devId]) devices[devId].updateParamenters();
-  //if devId does not exist. Create it
-  else
+const generatePayload = (devId, date) => {
+  if (!date) {
+    date = new Date();
+    process.exit();
+  }
+  if (devices[devId]) {
+    devices[devId].updateParamenters(new Date(date));
+  } else {
+    logger.info(
+      "--------------- NEW DEVICE ---------------"
+    );
     devices[devId] = new DrHarvesterInput(
       devId,
-      getRandomInt(1, 100),
-      getRandomInt(1, 100)
+      100,
+      random.getRandomInt(1, 100),
+      new Date(date)
     );
-  logger.info(devices[devId]);
+    logger.info(
+      "------------------------------------------"
+    );
+  }
+  //logger.info(devices[devId]);
   return devices[devId];
 };
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
 
 class DrHarvesterInput {
   #timestamp;
   #battery;
-  constructor(id, batSOC, duty, harvId = "SolarHeavyLoad") {
+  constructor(
+    id,
+    batSOC,
+    duty,
+    date,
+    harvId = "SolarHeavyLoad"
+  ) {
     this.devId = id;
     this.harvId = harvId;
     this.lowpwrI = 400;
@@ -43,9 +55,12 @@ class DrHarvesterInput {
     this.thGrad = null;
     this.vibAcc = null;
     this.vibFreq = null;
-    this.#timestamp = new Date();
+    this.#timestamp = date;
     this.phIrr = this.getIrradiance();
     this.#battery = this.calculateBattery();
+    logger.info(
+      `device ${id} - ${this.#timestamp.toString()}`
+    );
   }
   getIrradiance() {
     const searchIrradianceHour = `2020${this.formatNumber(
@@ -53,12 +68,13 @@ class DrHarvesterInput {
     )}${this.formatNumber(
       this.#timestamp.getDate()
     )}:${this.formatNumber(this.#timestamp.getHours())}10`;
-    console.log(searchIrradianceHour);
     const realIrradiance = irradiances.filter(
       (irradiance) =>
         irradiance["time"] === searchIrradianceHour
     )[0];
-    console.log(realIrradiance["G(i)"]);
+    logger.info(
+      `time: ${searchIrradianceHour} irr: ${realIrradiance["G(i)"]}`
+    );
     return realIrradiance["G(i)"];
   }
 
@@ -67,13 +83,14 @@ class DrHarvesterInput {
       minimumIntegerDigits: 2,
     }).format(number);
   }
-  updateParamenters() {
+  updateParamenters(currentTime) {
     logger.info("updating parameters...");
-    // logger.info(`data:${this.#timestamp.toString()} current hour: ${this.#timestamp.getHours()}`)
-    const currentTime = new Date();
+    logger.info(
+      `old:${this.#timestamp.toString()}  new: ${currentTime.toString()}`
+    );
     const timePassed =
       currentTime.getTime() - this.#timestamp.getTime();
-    this.#timestamp = currentTime;
+    //this.#timestamp = currentTime;
     this.phIrr = this.getIrradiance();
     const updatedBattery = this.#battery - timePassed;
     logger.info(
@@ -81,8 +98,9 @@ class DrHarvesterInput {
         this.batSOC
       }%`
     );
-    this.batSOC =
-      (updatedBattery * this.batSOC) / this.#battery;
+    this.batSOC = Number.parseInt(
+      (updatedBattery * this.batSOC) / this.#battery
+    );
     this.#battery = updatedBattery;
     logger.info(`new battery: ${this.batSOC}`);
   }

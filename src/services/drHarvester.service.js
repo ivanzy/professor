@@ -5,7 +5,7 @@ const logger = require("../config/logger");
 
 const postSimulation = async (url, inputData) => {
   logger.info(
-    `Querying DrHarvester for a new simulation - Irradiance: ${inputData.phIrr} - batV: ${inputData.batV}`
+    `Querying DrHarvester for a new simulation - Irradiance: ${inputData.phIrr} - batV: ${inputData.batSOC}`
   );
   let { data } = await axios.post(
     `${url}/harvester/simulation`,
@@ -15,26 +15,29 @@ const postSimulation = async (url, inputData) => {
   return data.jobId;
 };
 
-const getSimulationResult = async (url, jobId) => {
+const getSimulationResult = async (
+  url,
+  jobId,
+  isCache = false
+) => {
   let terminated = false;
   let simulation = null;
   try {
-    let i = 0;
     do {
-      i++;
-      logger.info(
-        `Sleeping for ${config.requestInterval}s...`
-      );
-      await sleep(config.requestInterval);
+      if (!isCache) {
+        logger.info(
+          `Sleeping for ${config.requestInterval}s...`
+        );
+        await sleep(config.requestInterval);
+      }
       logger.info(`Resquest to DrHarvester for ${jobId}`);
       let response = await axios.get(
         `${url}/harvester/simulation/${jobId}`
       );
-      console.log(response.data);
       terminated = response.data.terminated;
       simulation = response.data;
     } while (!terminated);
-    return { simulation: simulation, count: i };
+    return { simulation: simulation };
   } catch (err) {
     return new Error(err.message);
   }

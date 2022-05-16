@@ -8,7 +8,7 @@ const record = (name, time) => {
     `src/experiments/${name}.csv`,
     recordEntry,
     (err) => {
-      if (err) return console.log(err);
+      if (err) return logger.error(err);
       logger.info(
         `new entry at ${name}.csv: ${recordEntry}`
       );
