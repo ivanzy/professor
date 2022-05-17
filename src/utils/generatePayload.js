@@ -1,39 +1,59 @@
+//TODO: clean up this class after tests
 const logger = require("../config/logger");
 const random = require("../utils/randomGenerator");
 const irradiances =
   require("../../assets/Timeseries_44.529_11.324_SA2_2a_2020_2020.json")
     .outputs.hourly;
 
-const devices = {};
+const devices = [];
+const startDate = random.randomDate();
 
 const generatePayload = (devId, date) => {
   if (!date) {
     date = new Date();
-    process.exit();
   }
+
   if (devices[devId]) {
+    //*workaround
+    if (!(date instanceof Date)) {
+      oldDate = devices[devId].getDate();
+      oldDate.setMilliseconds(
+        oldDate.getMilliseconds() + date
+      );
+      date = oldDate;
+    }
     devices[devId].updateParamenters(new Date(date));
   } else {
     logger.info(
       "--------------- NEW DEVICE ---------------"
     );
+    if (!(date instanceof Date)) {
+      oldDate = new Date(startDate);
+      oldDate.setMilliseconds(
+        oldDate.getMilliseconds() + date
+      );
+      date = oldDate;
+    }
+
     devices[devId] = new DrHarvesterInput(
       devId,
       100,
       random.getRandomInt(1, 100),
-      new Date(date)
+       new Date(date)
     );
     logger.info(
       "------------------------------------------"
     );
   }
-  //logger.info(devices[devId]);
+
   return devices[devId];
 };
 
 class DrHarvesterInput {
   #timestamp;
   #battery;
+  #batteryInit;
+  #timePassed;
   constructor(
     id,
     batSOC,
@@ -58,9 +78,16 @@ class DrHarvesterInput {
     this.#timestamp = date;
     this.phIrr = this.getIrradiance();
     this.#battery = this.calculateBattery();
+    this.#batteryInit = this.calculateBattery();
+
     logger.info(
       `device ${id} - ${this.#timestamp.toString()}`
     );
+    this.initDate = date;
+    this.#timePassed = 0;
+  }
+  getDate() {
+    return new Date(this.#timestamp);
   }
   getIrradiance() {
     const searchIrradianceHour = `2020${this.formatNumber(
@@ -85,29 +112,42 @@ class DrHarvesterInput {
   }
   updateParamenters(currentTime) {
     logger.info("updating parameters...");
-    logger.info(
-      `old:${this.#timestamp.toString()}  new: ${currentTime.toString()}`
-    );
+
     const timePassed =
       currentTime.getTime() - this.#timestamp.getTime();
-    //this.#timestamp = currentTime;
-    this.phIrr = this.getIrradiance();
+    this.#timePassed += timePassed;
+    this.#timestamp = new Date(currentTime);
     const updatedBattery = this.#battery - timePassed;
     logger.info(
-      `time passed: ${timePassed / 1000}s, old battery: ${
-        this.batSOC
-      }%`
+      `${this.devId} - time passed: ${
+        timePassed / 1000
+      }s, old battery: ${this.batSOC}%`
     );
-    this.batSOC = Number.parseInt(
-      (updatedBattery * this.batSOC) / this.#battery
-    );
+    this.batSOC =
+      (updatedBattery * this.batSOC) / this.#battery;
     this.#battery = updatedBattery;
+    const currentIrradiance = this.getIrradiance();
+    if (this.phIrr !== currentIrradiance) {
+      this.#battery = this.calculateBattery();
+    }
+    this.phIrr = this.getIrradiance();
+
     logger.info(`new battery: ${this.batSOC}`);
+    if (this.batSOC <= 0) {
+      console.log(this.phIrr);
+      console.log(this.duty);
+      console.log(this.initDate.toString());
+      console.log(this.#timePassed);
+      console.log(this.#timePassed / 3600000);
+      console.log(this.calculateBattery() / 3600000);
+      console.log(this.#batteryInit / 3600000);
+      process.exit();
+    }
   }
 
   calculateBattery() {
     const misteriousData =
-      -0.424 * this.phIrr + (648 + 5.8 * this.duty);
+      (-0.424 * this.phIrr + (648 + 5.8 * this.duty)) / 25;
 
     let batlifeh =
       (3250 * (this.batSOC / 100)) /
@@ -115,6 +155,7 @@ class DrHarvesterInput {
 
     if (this.duty == 0) batlifeh *= 1.1;
     batlifeh = batlifeh * 3600000;
+    //console.log("lifetime: " + batlifeh);
     return batlifeh;
   }
 }

@@ -5,7 +5,7 @@ const logger = require("../config/logger");
 
 const postSimulation = async (url, inputData) => {
   logger.info(
-    `Querying DrHarvester for a new simulation - Irradiance: ${inputData.phIrr} - batV: ${inputData.batSOC}`
+    `Querying DrHarvester for a new simulation - Irradiance: ${inputData.phIrr} - Bat%: ${inputData.batSOC}`
   );
   let { data } = await axios.post(
     `${url}/harvester/simulation`,

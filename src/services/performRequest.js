@@ -6,13 +6,16 @@ const record = require("../utils/recordDataPoint");
 const random = require("../utils/randomGenerator");
 
 const performRequest = {
-  async harvester({ harvester, devices }, name) {
+  async harvester({ harvester, devices }, name, time) {
     logger.info(`DrHarvester Simulation at ${harvester}`);
     const hrstart = process.hrtime();
     const simulationId =
       await drHarvesterClient.postSimulation(
         harvester,
-        generatePayload(random.getRandomInt(1, devices))
+        generatePayload(
+          random.getRandomInt(1, devices),
+          time
+        )
       );
     const simulation =
       await drHarvesterClient.getSimulationResult(
@@ -40,7 +43,6 @@ const performRequest = {
     logger.info(
       `lifetime: ${simulation.simulation.result.batlifeh}`
     );
-    process.exit();
     return;
   },
 };
