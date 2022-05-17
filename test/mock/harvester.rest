@@ -2,11 +2,27 @@ POST http://localhost:3000/start
 Content-Type: application/json
 
 {
-    "lambda":0.05,
+    "lambda":0.5,
     "time": 300,
-    "name": "testHarvester",
+    "name": "testHarvester01",
     "url": {
         "harvester": "http://127.0.0.1:7739",
+        "devices": 10
+    },
+    "cacheTime":0
+
+}
+
+###
+POST http://localhost:3000/start
+Content-Type: application/json
+
+{
+    "lambda":0.5,
+    "time": 300,
+    "name": "docker-test01",
+    "url": {
+        "harvester": "http://127.0.0.1:2022",
         "devices": 10
     },
     "cacheTime":0

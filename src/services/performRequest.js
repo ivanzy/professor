@@ -22,6 +22,10 @@ const performRequest = {
         harvester,
         simulationId
       );
+    logger.info(
+      "************** SIMULATION FINISHED **************"
+    );
+    //logger.info(simulation);
     record(name, process.hrtime(hrstart));
     return;
   },
