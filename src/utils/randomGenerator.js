@@ -3,4 +3,8 @@ const exponentialGenerator = (
   random = Math.random()
 ) => Math.log(1 - random) / (-1 * lambda);
 
-module.exports = exponentialGenerator;
+function getRandomInt(max) {
+  return Math.floor(Math.random() * (max + 1));
+}
+
+module.exports = { exponentialGenerator, getRandomInt };

@@ -1,5 +1,8 @@
 {
   "logLevel": "info",
+  "numberOfAcousticEmissionSensorsPerEdge": 3,
+  "numberOfAccelerometersPerEdge": 3,
+  "periodicity":60000,
   "server": {
     "host": "localhost",
     "port": 3000
