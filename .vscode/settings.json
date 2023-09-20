@@ -1,5 +1,4 @@
 {
-    "cSpell.words": [
-        "hrstart"
-    ]
+  "cSpell.words": ["hrstart"],
+  "prettier.printWidth": 100 // Set the maximum line length to your desired value (e.g., 100)
 }

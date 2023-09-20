@@ -10,15 +10,16 @@ const performRequest = (type, url, name, withFeatures) => {
   logger.info(`${type} - ${url}`);
   const headers = headerFactory.post();
   const hrstart = process.hrtime();
-  const response = axios.post(
-    url,
-    generatePayload(type, withFeatures),
-    {
-      headers,
-    }
-  );
+  const payload = generatePayload(type, withFeatures);
+  const response = axios.post(url, payload, {
+    headers,
+  });
   return response
-    .then(() => record(name, type, process.hrtime(hrstart)))
+    .then((res) => {
+      logger.info(`Response Status: ${res.status}`);
+      record(name, type, res.status, process.hrtime(hrstart));
+      return res;
+    })
     .catch(resultHandler.errorHandler);
 };
 

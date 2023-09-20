@@ -1,41 +1,20 @@
 const validate = (payload) => {
   if (!(payload.name && typeof payload.name === "string"))
     return false;
-  if (
-    !(payload.lambda && typeof payload.lambda === "number")
-  )
-    return false;
   if (!(payload.time && typeof payload.time === "number"))
     return false;
-  if (!(payload.url && typeof payload.url === "object"))
-    return false;
   if (
     !(
-      payload.url.get && typeof payload.url.get === "string"
+      payload.numberOfEdges &&
+      typeof payload.numberOfEdges === "number"
     )
   )
     return false;
+  if (!(payload.url && isValidURL(payload.url))) return false; // Corrected the URL validation
   if (
     !(
-      payload.url.post && typeof payload.url.post === "string"
-    )
-  )
-    return false;
-  if (
-    !(
-      payload.url.put && typeof payload.url.put === "string"
-    )
-  )
-    return false;
-  if (
-    !(
-      payload.url.delete && typeof payload.url.delete === "string"
-    )
-  )
-    return false;
-  if (
-    !(
-      payload.url.patch && typeof payload.url.patch === "string"
+      payload.withFeatures !== undefined && 
+      typeof payload.withFeatures === "boolean"
     )
   )
     return false;
@@ -43,4 +22,12 @@ const validate = (payload) => {
   return true;
 };
 
+function isValidURL(url) {
+  try {
+    new URL(url);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
 module.exports = validate;

@@ -32,3 +32,16 @@ Content-Type: application/json
         "patch":  "http://192.168.1.242:3333/mockapi/properties/put-status"
     }
 }
+
+###
+
+POST http://localhost:3000/start
+Content-Type: application/json
+
+{
+    "number-of-edges":1,
+    "time": 2000,
+    "name": "testExperiment",
+    "withFeatures": false,
+    "url":  "https://modron-api.iot-prism-lab.cs.unibo.it/accelerationRaw"
+}

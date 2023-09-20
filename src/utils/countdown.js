@@ -1,7 +1,13 @@
+const logger = require("../config/logger");
 
-const countdown = async (seconds, func, payload) => {
-  const start = process.hrtime();
-  while (seconds > process.hrtime(start)[0]) await func(payload);
+const countdown = async (seconds, initialFunction, payload, terminationFunction) => {
+  initialFunction(payload);
+  logger.info(`experiment started...`);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, seconds * 1000);
+  });
 };
 
 module.exports = countdown;
