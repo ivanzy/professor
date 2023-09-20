@@ -1,7 +1,17 @@
 {
   "logLevel": "info",
-  "numberOfAcousticEmissionSensorsPerEdge": 3,
-  "numberOfAccelerometersPerEdge": 3,
+  "accelerometer":{
+    "perEdgeNode": 3,
+    "samples":2500,
+    "features": 6,
+    "periodicity": 60000
+  },
+  "acousticEmission":{
+    "perEdgeNode": 3,
+    "features": 11,
+    "samples":2500,
+    "periodicity": 60000
+  },
   "periodicity":60000,
   "server": {
     "host": "localhost",
