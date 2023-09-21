@@ -17,8 +17,6 @@ const performRequest = (type, name, replication, config) => {
     headers,
   });
 
-  logger.info(JSON.stringify(payload))
-
   return response
     .then((res) => {
       RequestCounterManager.incrementResponse();
