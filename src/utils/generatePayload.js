@@ -1,7 +1,5 @@
-const gConfig = require("../config/conf.json");
-
-const generatePayload = (type, withFeatures) => {
-  const config = gConfig[type];
+const generatePayload = (withFeatures, config) => {
+  //const config = gConfig[type];
 
   const timestamp = getCurrentTimestampInNanoseconds();
   const payload = { timestamp: timestamp.toString() };

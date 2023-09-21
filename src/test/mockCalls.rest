@@ -43,5 +43,17 @@ Content-Type: application/json
     "time": 2000,
     "name": "testExperiment",
     "withFeatures": false,
-    "url":  "https://modron-api.iot-prism-lab.cs.unibo.it/accelerationRaw"
+    "url":  "https://modron-api.iot-prism-lab.cs.unibo.it/accelerationRaw",
+    "accelerometer": {
+      "perEdgeNode": 1,
+      "samples": 1,
+      "features": 6,
+      "periodicity": 5000
+    },
+    "acoustic-emission": {
+      "perEdgeNode": 1,
+      "features": 11,
+      "samples": 1,
+      "periodicity": 5000
+    }
 }

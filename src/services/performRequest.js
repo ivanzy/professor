@@ -6,11 +6,11 @@ const resultHandler = require("../utils/handlers/resultHandler");
 const generatePayload = require("../utils/generatePayload");
 const record = require("../utils/recordDataPoint");
 
-const performRequest = (type, url, name, withFeatures) => {
+const performRequest = (type, url, name, withFeatures, config) => {
   logger.info(`${type} - ${url}`);
   const headers = headerFactory.post();
   const hrstart = process.hrtime();
-  const payload = generatePayload(type, withFeatures);
+  const payload = generatePayload(withFeatures, config);
   const response = axios.post(url, payload, {
     headers,
   });
