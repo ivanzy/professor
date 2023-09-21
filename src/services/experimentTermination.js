@@ -5,9 +5,9 @@ const RequestCounterManager = require("../utils/RequestCounterManager");
 const experimentControl = require("../utils/experimentControl");
 const experimentTermination = ({ name, replication }) => {
   logger.info(`terminating the experiment in 10s...`);
+  const ids = intervalManager.getIntervalIds();
+  for (const id of ids) clearInterval(id);
   setTimeout(() => {
-    const ids = intervalManager.getIntervalIds();
-    for (const id of ids) clearInterval(id);
     experimentControl.finish();
     const recordEntry = `${name};${replication},${RequestCounterManager.getCounter()};${RequestCounterManager.getResponse()};${RequestCounterManager.pendingRequests()}`;
     record(recordEntry);
