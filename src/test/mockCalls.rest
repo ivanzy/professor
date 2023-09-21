@@ -39,7 +39,35 @@ POST http://localhost:3000/start
 Content-Type: application/json
 
 {
-    "number-of-edges":100,
+    "number-of-edges":1,
+    "time": 10,
+    "name": "raw-timeout",
+    "replication": 1,
+    "accelerometer": {
+      "withFeatures": false,
+      "url":  "https://modron-api.iot-prism-lab.cs.unibo.it/accelerationRawExtract",
+      "perEdgeNode": 3,
+      "samples": 2500,
+      "features": 6,
+      "periodicity": 10000
+    },
+    "acoustic-emission": {
+      "withFeatures": false,
+      "url":  "https://modron-api.iot-prism-lab.cs.unibo.it/acousticRawExtract",
+      "perEdgeNode": 3,
+      "features": 11,
+      "samples": 2500,
+      "periodicity": 10000
+    }
+}
+
+###
+
+POST http://130.136.2.155:3000/start
+Content-Type: application/json
+
+{
+    "number-of-edges":1,
     "time": 3600,
     "name": "raw-timeout",
     "replication": 1,

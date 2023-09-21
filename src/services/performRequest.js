@@ -4,10 +4,12 @@ const logger = require("../config/logger");
 const headerFactory = require("../utils/headers");
 const resultHandler = require("../utils/handlers/resultHandler");
 const generatePayload = require("../utils/generatePayload");
-const record = require("../utils/recordDataPoint");
+const record = require("../utils/recordDataPoint").recordDataPoint;
+const RequestCounterManager = require("../utils/RequestCounterManager");
 
 const performRequest = (type, name, replication, config) => {
-  logger.info(`sending a ${type} data to ${config.url}`);
+  RequestCounterManager.incrementCounter();
+  logger.info(`#${RequestCounterManager.getCounter()}: sending a ${type} data to ${config.url}`);
   const headers = headerFactory.post();
   const hrstart = process.hrtime();
   const payload = generatePayload(name, replication, config);
@@ -15,22 +17,29 @@ const performRequest = (type, name, replication, config) => {
     headers,
   });
 
-  //logger.info(`${JSON.stringify(payload)}`)
   return response
     .then((res) => {
-      logger.info(`Response Status: ${res.status}`);
+      RequestCounterManager.incrementResponse();
+      logger.info(
+        `Response Status: ${
+          res.status
+        } - pending requests: ${RequestCounterManager.pendingRequests()}`
+      );
       record(name, replication, type, res.status, process.hrtime(hrstart));
       return res;
     })
     .catch((error) => {
-      if (error.code === 'ECONNABORTED') {
-        logger.info('Request **TIMEOUT** occurred');
-        record(name, replication, type, -1, process.hrtime(hrstart)); 
+      if (error.code === "ECONNABORTED") {
+        logger.info("Request **TIMEOUT** occurred");
+        record(name, replication, type, -1, process.hrtime(hrstart));
       } else if (error.response) {
-        logger.info('Error in request from server side');
+        logger.info("Error in request from server side");
         record(name, replication, type, error.response.status, process.hrtime(hrstart));
       } else {
-        resultHandler.errorHandler(error);
+        logger.info("error without server response");
+        record(name, replication, type, 0, process.hrtime(hrstart));
+
+        //resultHandler.errorHandler(error);
       }
     });
 };

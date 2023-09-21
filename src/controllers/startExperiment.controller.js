@@ -20,7 +20,7 @@ const start = (req, res) => {
     //* execute startService for the experiment time (countdown)
 
     countdown(payload.time, startService, payload).then(() => {
-      experimentTermination();
+      experimentTermination(payload);
       experimentControl.finish();
       logger.info(`Experiment ${payload.name} finished`);
     });
