@@ -1,9 +1,9 @@
-const generatePayload = (withFeatures, config) => {
+const generatePayload = (config) => {
   //const config = gConfig[type];
 
   const timestamp = getCurrentTimestampInNanoseconds();
-  const payload = { timestamp: timestamp.toString() };
-  if (withFeatures) {
+  let payload = { timestamp: timestamp.toString() };
+  if (config.withFeatures) {
     const features = generateFeatures(config.features);
     payload = { ...features, ...payload };
   } else {

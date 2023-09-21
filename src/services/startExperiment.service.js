@@ -3,22 +3,22 @@ const performRequest = require("./performRequest");
 const randomGenerator = require("../utils/randomGenerator");
 const intervalManager = require("../utils/intervalManager");
 
-const start = ({ url, numberOfEdges, name, withFeatures, acousticEmission, accelerometer }) => {
+const start = ({ numberOfEdges, name, acousticEmission, accelerometer }) => {
   logger.info(`Going to create ${numberOfEdges} edge nodes`);
   for (let i = 0; i < numberOfEdges; i++) {
-    createDevices("accelerometer", url, name, withFeatures, accelerometer);
-    createDevices("acousticEmission", url, name, withFeatures, acousticEmission);
+    createDevices("accelerometer", name, accelerometer);
+    createDevices("acousticEmission", name, acousticEmission);
   }
 };
 
-createDevices = (type, url, name, withFeatures, config) => {
+createDevices = (type, name, config) => {
   for (let i = 0; i < config.perEdgeNode; i++) {
     const initialPeriodicity = randomGenerator.getRandomInt(config.periodicity);
     logger.info(`setting ${type} sensors with ${initialPeriodicity}s as initial periodicity`);
     setTimeout(() => {
-      performRequest(type, url, name, withFeatures, config);
+      performRequest(type, name, config);
       const id = setInterval(() => {
-        performRequest(type, url, name, withFeatures, config);
+        performRequest(type, name, config);
       }, config.periodicity);
       intervalManager.addIntervalId(id);
     }, initialPeriodicity);

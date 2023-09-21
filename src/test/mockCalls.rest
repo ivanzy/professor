@@ -40,20 +40,22 @@ Content-Type: application/json
 
 {
     "number-of-edges":1,
-    "time": 2000,
-    "name": "testExperiment",
-    "withFeatures": false,
-    "url":  "https://modron-api.iot-prism-lab.cs.unibo.it/accelerationRaw",
+    "time": 10,
+    "name": "testExperiment",    
     "accelerometer": {
-      "perEdgeNode": 1,
-      "samples": 1,
+      "withFeatures": false,
+      "url":  "https://modron-api.iot-prism-lab.cs.unibo.it/accelerationRaw",
+      "perEdgeNode": 3,
+      "samples": 2500,
       "features": 6,
-      "periodicity": 5000
+      "periodicity": 10000
     },
     "acoustic-emission": {
-      "perEdgeNode": 1,
+      "withFeatures": false,
+      "url":  "https://modron-api.iot-prism-lab.cs.unibo.it/acousticRaw",
+      "perEdgeNode": 3,
       "features": 11,
-      "samples": 1,
-      "periodicity": 5000
+      "samples": 2500,
+      "periodicity": 10000
     }
 }

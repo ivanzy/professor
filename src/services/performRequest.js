@@ -6,12 +6,12 @@ const resultHandler = require("../utils/handlers/resultHandler");
 const generatePayload = require("../utils/generatePayload");
 const record = require("../utils/recordDataPoint");
 
-const performRequest = (type, url, name, withFeatures, config) => {
-  logger.info(`${type} - ${url}`);
+const performRequest = (type, name, config) => {
+  logger.info(`${type} - ${config.url}`);
   const headers = headerFactory.post();
   const hrstart = process.hrtime();
-  const payload = generatePayload(withFeatures, config);
-  const response = axios.post(url, payload, {
+  const payload = generatePayload(config);
+  const response = axios.post(config.url, payload, {
     headers,
   });
   return response
@@ -20,7 +20,15 @@ const performRequest = (type, url, name, withFeatures, config) => {
       record(name, type, res.status, process.hrtime(hrstart));
       return res;
     })
-    .catch(resultHandler.errorHandler);
+    .catch(
+      (error) => {
+        if (error.response) {
+          record(name, type, error.response.status, process.hrtime(hrstart));
+        } else {
+          resultHandler.errorHandler(error);
+        }
+      }
+    );
 };
 
 module.exports = performRequest;

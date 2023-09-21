@@ -10,14 +10,6 @@ const validate = (payload) => {
     )
   )
     return false;
-  if (!(payload.url && isValidURL(payload.url))) return false; // Corrected the URL validation
-  if (
-    !(
-      payload.withFeatures !== undefined && 
-      typeof payload.withFeatures === "boolean"
-    )
-  )
-    return false;
 
   return true;
 };

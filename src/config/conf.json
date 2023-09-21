@@ -1,17 +1,5 @@
 {
   "logLevel": "info",
-  "accelerometer": {
-    "perEdgeNode": 1,
-    "samples": 1,
-    "features": 6,
-    "periodicity": 5000
-  },
-  "acousticEmission": {
-    "perEdgeNode": 1,
-    "features": 11,
-    "samples": 1,
-    "periodicity": 5000
-  },
   "server": {
     "host": "localhost",
     "port": 3000
