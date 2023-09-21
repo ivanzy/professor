@@ -5,6 +5,7 @@ const validatePayload = require("../validations/payloadValidator");
 const startService = require("../services/startExperiment.service");
 const convertToCamelCase = require("../utils/camelCaseConvertor");
 const experimentTermination = require("../services/experimentTermination");
+const RequestCounterManager = require("../utils/RequestCounterManager");
 
 const start = (req, res) => {
   try {
@@ -14,7 +15,8 @@ const start = (req, res) => {
     //* check if payload is valid
 
     if (!validatePayload(payload)) throw { code: 404 };
-
+    
+    RequestCounterManager.reset();
     //* starting experiment
     experimentControl.start();
     //* execute startService for the experiment time (countdown)

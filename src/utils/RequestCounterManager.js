@@ -33,6 +33,10 @@ class RequestCounterManager {
   static pendingRequests() {
     return RequestCounterManager.#counter - RequestCounterManager.#response;
   }
+  static reset() {
+    RequestCounterManager.#counter = 0;
+    RequestCounterManager.#response = 0;
+  }
 }
 
 module.exports = RequestCounterManager;

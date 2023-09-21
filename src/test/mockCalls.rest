@@ -47,7 +47,7 @@ Content-Type: application/json
       "withFeatures": false,
       "url":  "https://modron-api.iot-prism-lab.cs.unibo.it/accelerationRawExtract",
       "perEdgeNode": 3,
-      "samples": 2500,
+      "samples": 2,
       "features": 6,
       "periodicity": 10000
     },
@@ -56,7 +56,7 @@ Content-Type: application/json
       "url":  "https://modron-api.iot-prism-lab.cs.unibo.it/acousticRawExtract",
       "perEdgeNode": 3,
       "features": 11,
-      "samples": 2500,
+      "samples": 2,
       "periodicity": 10000
     }
 }
@@ -69,7 +69,7 @@ Content-Type: application/json
 {
     "number-of-edges":1,
     "time": 3600,
-    "name": "raw-timeout",
+    "name": "raw-test-records",
     "replication": 1,
     "accelerometer": {
       "withFeatures": false,
