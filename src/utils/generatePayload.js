@@ -1,7 +1,7 @@
 const generatePayload = (name, replication, config) => {
   //const config = gConfig[type];
 
-  const timestamp = getCurrentTimestampInNanoseconds();
+  const timestamp = getCurrentTimestamp();
   let payload = { experiment: name, replication: replication, timestamp: timestamp.toString() };
   if (config.withFeatures) {
     const features = generateFeatures(config.features);
@@ -29,9 +29,8 @@ function generateFeatures(numberOfFeatures) {
   return features;
 }
 
-function getCurrentTimestampInNanoseconds() {
-  const hrtime = process.hrtime();
-  return BigInt(hrtime[0] * 1e9 + hrtime[1]);
+function getCurrentTimestamp() {
+  return Date.now();
 }
 
 module.exports = generatePayload;
