@@ -1,6 +1,7 @@
 class RequestCounterManager {
   static #counter = 0;
   static #response = 0;
+  static #error = 0;
   /**
    * Get the current value of the request counter.
    * @returns {number} The current value of the counter.
@@ -23,6 +24,22 @@ class RequestCounterManager {
   static incrementResponse() {
     RequestCounterManager.#response++;
   }
+
+  /**
+   * Get the current value of the errors counter.
+   * @returns {number} The current value of the counter.
+   */
+  static getErrors() {
+    return RequestCounterManager.#error;
+  }
+
+  /**
+   * Increment the errors counter by one.
+   */
+  static incrementErrors() {
+    RequestCounterManager.#error++;
+  }
+
   /**
    * Increment the request counter by one.
    */

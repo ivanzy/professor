@@ -29,6 +29,7 @@ const performRequest = (type, name, replication, config) => {
       return res;
     })
     .catch((error) => {
+      RequestCounterManager.incrementErrors();
       if (error.code === "ECONNABORTED") {
         logger.info("Request **TIMEOUT** occurred");
         record(name, replication, type, -1, process.hrtime(hrstart));

@@ -23,7 +23,6 @@ const start = (req, res) => {
 
     countdown(payload.time, startService, payload).then(() => {
       experimentTermination(payload);
-      experimentControl.finish();
       logger.info(`Experiment ${payload.name} finished`);
     });
     res.status(200).send("experiment started");
