@@ -2,7 +2,7 @@ const generatePayload = (name, replication, config) => {
   //const config = gConfig[type];
 
   const timestamp = getCurrentTimestamp();
-  let payload = { experiment: name, replication: replication, timestamp: timestamp.toString() };
+  let payload = { experiment: name, replication: replication, timestamp: timestamp };
   if (config.withFeatures) {
     const features = generateFeatures(config.features);
     payload = { ...features, ...payload };
