@@ -9,7 +9,7 @@ const experimentTermination = ({ name, replication }) => {
   for (const id of ids) clearInterval(id);
   setTimeout(() => {
     experimentControl.finish();
-    const recordEntry = `${name};${replication},${RequestCounterManager.getCounter()};${RequestCounterManager.getErrors()}${RequestCounterManager.getResponse()};${RequestCounterManager.pendingRequests()}\n`;
+    const recordEntry = `${name};${replication},${RequestCounterManager.getCounter()};${RequestCounterManager.getErrors()};${RequestCounterManager.getResponse()};${RequestCounterManager.pendingRequests()}\n`;
     record(recordEntry);
   }, 10000);
 };
