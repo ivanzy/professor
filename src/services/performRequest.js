@@ -17,6 +17,11 @@ const performRequest = (type, name, replication, config) => {
     headers,
   });
 
+
+  const payloadSizeInBytes = Buffer.from(JSON.stringify(payload)).byteLength; //179683
+
+  logger.info(`payload size: ${payloadSizeInBytes} bytes`);
+
   return response
     .then((res) => {
       RequestCounterManager.incrementResponse();

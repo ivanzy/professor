@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "node src/index.js",
+    "stop": "pkill --signal SIGINT professor",
     "cleanUp": "node src/cleanUp/index.js"
   },
   "author": "",
