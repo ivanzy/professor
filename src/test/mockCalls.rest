@@ -40,36 +40,89 @@ Content-Type: application/json
 
 {
     "number-of-edges":1,
-    "time": 10,
+    "time": 5,
     "name": "raw-timeout",
     "replication": 1,
     "accelerometer": {
-      "withFeatures": false,
-      "url":  "https://modron-api.iot-prism-lab.cs.unibo.it/accelerationRawExtract",
+      "withFeatures": true,
+      "url":  "http://192.168.1.244:3000/accelerationFeatures",
       "perEdgeNode": 3,
-      "samples": 2,
+      "samples": 2500,
       "features": 6,
-      "periodicity": 10000
+      "periodicity": 1000
     },
     "acoustic-emission": {
-      "withFeatures": false,
-      "url":  "https://modron-api.iot-prism-lab.cs.unibo.it/acousticRawExtract",
+      "withFeatures": true,
+      "url":  "http://192.168.1.244:3000/acousticFeatures",
       "perEdgeNode": 3,
       "features": 11,
-      "samples": 2,
-      "periodicity": 10000
+      "samples": 2500,
+      "periodicity": 1000
     }
 }
 
 ###
 
+POST http://localhost:3000/start
+Content-Type: application/json
+
+{
+    "number-of-edges":300,
+    "time": 600,
+    "name": "1-express-20-features-10min",
+    "replication": 1,
+    "accelerometer": {
+      "withFeatures": true,
+      "url":  "http://130.136.2.155:3000/accelerationFeatures",
+      "perEdgeNode": 3,
+      "samples": 2500,
+      "features": 6,
+      "periodicity": 3600000
+    },
+    "acoustic-emission": {
+      "withFeatures": true,
+      "url":  "http://130.136.2.155:3000/acousticFeatures",
+      "perEdgeNode": 3,
+      "features": 11,
+      "samples": 2500,
+      "periodicity": 60000
+    }
+}
+###
+
+POST http://localhost:3000/start
+Content-Type: application/json
+
+{
+    "number-of-edges":500,
+    "time": 180,
+    "name": "1-express-500-raw-3min",
+    "replication": 1,
+    "accelerometer": {
+      "withFeatures": false,
+      "url":  "http://dld.arces.unibo.it:3000/accelerationRawExtract",
+      "perEdgeNode": 3,
+      "samples": 2500,
+      "features": 6,
+      "periodicity": 3600000
+    },
+    "acoustic-emission": {
+      "withFeatures": false,
+      "url":  "http://dld.arces.unibo.it:3000/acousticRawExtract",
+      "perEdgeNode": 3,
+      "features": 11,
+      "samples": 2500,
+      "periodicity": 60000
+    }
+}
+###
 POST http://130.136.2.155:3000/start
 Content-Type: application/json
 
 {
-    "number-of-edges":1,
-    "time": 3600,
-    "name": "raw-test-records",
+    "number-of-edges":150,
+    "time": 180,
+    "name": "short-20-raw",
     "replication": 1,
     "accelerometer": {
       "withFeatures": false,
@@ -77,7 +130,7 @@ Content-Type: application/json
       "perEdgeNode": 3,
       "samples": 2500,
       "features": 6,
-      "periodicity": 10000
+      "periodicity": 3600000
     },
     "acoustic-emission": {
       "withFeatures": false,
@@ -85,6 +138,6 @@ Content-Type: application/json
       "perEdgeNode": 3,
       "features": 11,
       "samples": 2500,
-      "periodicity": 10000
+      "periodicity": 60000
     }
 }
