@@ -12,7 +12,7 @@ if len(sys.argv) != 2:
 filename = sys.argv[1]
 
 # Construct the full file path
-file_path = os.path.join('..', 'src', 'experiments', f'{filename}.csv')
+file_path = os.path.join('..', 'src', 'new-experiments', f'{filename}.csv')
 
 # Lists to store the values from the last column
 values = []
