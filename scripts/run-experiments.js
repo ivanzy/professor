@@ -97,14 +97,14 @@ const runWithDifferentParameters = async (url, timeInSeconds, numberOfEdges, max
     await delay((timeInSeconds + waitingTime + 10) * 1000);
     startService(url, timeInSeconds, numberOfEdges, true);
     await delay((timeInSeconds +  waitingTime + 10) * 1000);
-    numberOfEdges *= 2;
+    numberOfEdges += 200;
   }
 };
 // Example usage:
 const url = "http://dld.arces.unibo.it:3000";
 const timeInSeconds = 600;
-const startingNumberOfEdges = 30;
-const maxEdges = 480;
+const startingNumberOfEdges = 200;
+const maxEdges = 600;
 
 //600
 //400
