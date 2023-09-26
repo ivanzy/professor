@@ -1,0 +1,12 @@
+
+> professor@1.0.0 start
+> node --max-old-space-size=8192 src/index.js
+
+[32mINFO[39m [2023-09-23 15:00:52.611 +0000] (31173 on serverone): [36mServer for Performance Analysis purposes up and running at http://130.136.2.155:3000[39m
+Killed
+
+> professor@1.0.0 start
+> node --max-old-space-size=8192 src/index.js
+
+[32mINFO[39m [2023-09-23 15:01:36.878 +0000] (31207 on serverone): [36mServer for Performance Analysis purposes up and running at http://130.136.2.155:3000[39m
+Killed
