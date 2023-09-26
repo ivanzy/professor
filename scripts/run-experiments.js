@@ -106,5 +106,10 @@ const timeInSeconds = 600;
 const startingNumberOfEdges = 30;
 const maxEdges = 480;
 
+//600
+//400
+//200
+
+
 runWithDifferentParameters(url, timeInSeconds, startingNumberOfEdges, maxEdges);
 //startService(url, 5, 10, false);
